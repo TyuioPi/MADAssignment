@@ -1,0 +1,40 @@
+<resources>
+    <!-- Activity Titles -->
+    <string name="app_name">GeoTracking</string>
+    <string name="title_activity_tracking_finder">Tracking Finder</string>
+    <string name="search_tracking">Search Tracking</string>
+    <string name="edit_tracking">Edit Tracking</string>
+
+    <!-- Tabs -->
+    <string name="tab_text_1">Trackable</string>
+    <string name="tab_text_2">Tracking</string>
+
+    <!-- Tab Info -->
+    <string name="description">Description</string>
+    <string name="website">Website</string>
+    <string name="category">Category</string>
+    <string name="dialog_selection_close">Close</string>
+
+    <!-- Global use -->
+    <string name="title">Title</string>
+    <string name="start_time">Start Time</string>
+    <string name="meet_date">Meet Date</string>
+    <string name="meet_time">Meet Time</string>
+    <string name="end_time">End Time</string>
+    <string name="location">Location</string>
+    <string name="empty">-- --</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Filter -->
+    <string name="dialog_title_1">Select cuisine</string>
+    <string name="dialog_selection_add">Add</string>
+
+    <!-- tracking_finder -->
+    <string name="search">Search</string>
+    <string name="select_meet_time">Select Meet Time</string>
+    <string name="select_date">Select Date</string>
+
+    <!-- edit_tracking -->
+    <string name="confirm_edit">Edit</string>
+    <string name="remove">Remove</string>
+</resources>

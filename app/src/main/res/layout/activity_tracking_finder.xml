@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tracking_finder_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:theme="@style/AppTheme"
+    tools:context="com.s3628594.view.TrackingFinder">
+
+    <RelativeLayout
+        android:id="@+id/tracking_finder_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Spinner
+            android:id="@+id/find_trackable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </Spinner>
+
+        <EditText
+            android:id="@+id/edit_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/find_trackable"
+            android:inputType="date"
+            android:text="@string/select_date"
+            android:textAlignment="center">
+        </EditText>
+
+        <EditText
+            android:id="@+id/edit_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_below="@id/edit_date"
+            android:layout_alignParentEnd="true"
+            android:text="@string/select_meet_time"
+            android:textAlignment="center"
+            android:inputType="time">
+        </EditText>
+
+        <ListView
+            android:id="@+id/tracking_available"
+            android:layout_below="@id/search_tracking"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </ListView>
+
+        <Button
+            android:id="@+id/search_tracking"
+            android:text="@string/search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edit_time"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
