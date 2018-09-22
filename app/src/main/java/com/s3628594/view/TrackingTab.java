@@ -30,7 +30,7 @@ public class TrackingTab extends Fragment {
         // Setup item list
         adapter = new AddTrackingAdapter(getActivity(), TrackingImplementation.getSingletonInstance().getTrackingList());
         ListView itemList = view.findViewById(R.id.tracking_list);
-        itemList.setOnItemClickListener(new DisplayRouteInfo());
+        itemList.setOnItemClickListener(new DisplayRouteInfo(getActivity()));
         itemList.setOnItemLongClickListener(new CreateEditTrackingActivity(getActivity()));
         itemList.setAdapter(adapter);
 

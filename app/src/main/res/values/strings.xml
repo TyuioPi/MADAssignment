@@ -37,4 +37,7 @@
     <!-- edit_tracking -->
     <string name="confirm_edit">Edit</string>
     <string name="remove">Remove</string>
+
+    <!--Map -->
+    <string name="title_activity_maps">Map</string>
 </resources>
