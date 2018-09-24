@@ -51,4 +51,8 @@ public class TrackableImplementation {
     public ArrayList<String> getCategoryList() {
         return categoryList;
     }
+
+    public void getWalkingTimeToTrackable() {
+
+    }
 }

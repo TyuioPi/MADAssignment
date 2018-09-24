@@ -1,6 +1,10 @@
 package com.s3628594.view;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import android.support.v4.view.ViewPager;
@@ -15,6 +19,7 @@ import com.s3628594.model.FileLoader;
 
 public class HomeActivity extends AppCompatActivity {
 
+    private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private SectionsPageAdapter mSectionsPageAdapter;
     private CategoryFilter categoryFilter;
     private FileLoader fileLoader = new FileLoader();
@@ -43,6 +48,13 @@ public class HomeActivity extends AppCompatActivity {
         // Set up Filters
         categoryFilter = new CategoryFilter(this, trackableTab);
         categoryFilter.populateCategoryFilter();
+
+        // Ask user to provide location permissions if not granted
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions( this, new String[] {android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
     }
 
     private void setViewPager(ViewPager viewPager) {

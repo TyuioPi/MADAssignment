@@ -14,6 +14,7 @@ import com.s3628594.controller.CreateDateDialog;
 import com.s3628594.controller.CreateTimeDialog;
 import com.s3628594.controller.SearchTracking;
 import com.s3628594.controller.SelectTrackableSpinner;
+import com.s3628594.controller.SuggestTracking;
 import com.s3628594.geotracking.R;
 import com.s3628594.model.TrackableImplementation;
 import com.s3628594.model.MatchedTrackingAdapter;
@@ -59,6 +60,10 @@ public class TrackingFinder extends AppCompatActivity {
         // Search button for tracking
         Button search = findViewById(R.id.search_tracking);
         search.setOnClickListener(new SearchTracking(this, timeEdit, dateEdit, trackingAdapter));
+
+        // Suggest button for tracking
+        Button suggest = findViewById(R.id.suggest_tracking);
+        suggest.setOnClickListener(new SuggestTracking(this));
 
     }
 

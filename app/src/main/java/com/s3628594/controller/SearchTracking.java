@@ -18,7 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class SearchTracking implements View.OnClickListener{
+public class SearchTracking implements View.OnClickListener {
 
     private TrackingFinder trackingFinder;
     private EditText timeEdit, dateEdit;

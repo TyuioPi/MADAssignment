@@ -31,6 +31,7 @@
 
     <!-- tracking_finder -->
     <string name="search">Search</string>
+    <string name="suggest">Suggest</string>
     <string name="select_meet_time">Select Meet Time</string>
     <string name="select_date">Select Date</string>
 
