@@ -63,7 +63,7 @@ public class TrackingFinder extends AppCompatActivity {
 
         // Suggest button for tracking
         Button suggest = findViewById(R.id.suggest_tracking);
-        suggest.setOnClickListener(new SuggestTracking(this));
+        suggest.setOnClickListener(new SuggestTracking(this, trackingAdapter));
 
     }
 

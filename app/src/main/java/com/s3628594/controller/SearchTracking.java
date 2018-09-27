@@ -68,6 +68,8 @@ public class SearchTracking implements View.OnClickListener {
     private void findMatchedTracking() {
         final int SEARCH_WINDOW = 60; // Set a default search window for tracking of +/- 1 hour
 
+        System.out.println("DATE: " + date);
+
         // Lists all tracking information of all trackings found
         List<TrackingService.TrackingInfo> trackingFound =
                 TrackingService.getSingletonInstance(trackingFinder).getTrackingInfoForTimeRange(date, SEARCH_WINDOW, 0);
@@ -79,14 +81,13 @@ public class SearchTracking implements View.OnClickListener {
         ArrayList<String> matchedTracking = new ArrayList<>();
 
         // Check for title and id match, add necessary tracking information to respective lists
-        for (FoodTruck foodTruck : TrackableImplementation.getSingletonInstance().getTrackableList()){
+        for (FoodTruck foodTruck : TrackableImplementation.getSingletonInstance().getTrackableList()) {
             if (foodTruck.getTrackableName().contains(trackingFinder.getSelectedTrackable())) {
                 for (TrackingService.TrackingInfo trackingInfo : trackingFound) {
-                    if (trackingInfo.trackableId == foodTruck.getTrackableId()){
+                    if (trackingInfo.trackableId == foodTruck.getTrackableId()) {
                         if (trackingInfo.stopTime == 0) {
                             temporaryTrackingInfo.add(trackingInfo);
                         } else {
-
                             temporaryTrackingInfo.add(trackingInfo);
                             getAllMatchedTracking(trackingInfo, matchedTracking);
                             trackingFinder.setTrackingMatchedList(matchedTracking);

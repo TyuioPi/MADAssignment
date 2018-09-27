@@ -3,6 +3,7 @@ package com.s3628594.controller;
 import android.app.Dialog;
 import android.content.DialogInterface;
 
+import com.s3628594.model.TrackableImplementation;
 import com.s3628594.view.TrackableTab;
 
 import java.util.ArrayList;
@@ -25,6 +26,9 @@ public class FilterByCategory implements Dialog.OnClickListener {
         // Pass the category filter value to return food trucks in the category
         for (Object category : mSelectedCategories) {
             trackableTab.getFilteredFoodTruckName(categoryFilter[Integer.parseInt(category.toString())]);
+
+            // Add the selected categories to a list
+            TrackableImplementation.getSingletonInstance().setSelectedCategoryList(categoryFilter[Integer.parseInt(category.toString())]);
         }
 
         // Create our filter adapter and set it to our trackable tab for updates to the view

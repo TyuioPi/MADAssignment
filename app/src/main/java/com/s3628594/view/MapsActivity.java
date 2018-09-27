@@ -27,18 +27,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    /*
-    Example:
-    Without encoded polyline
-    https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=40.6655101,-73.89188969999998&destinations=40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.659569%2C-73.933783%7C40.729029%2C-73.851524%7C40.6860072%2C-73.6334271%7C40.598566%2C-73.7527626%7C40.659569%2C-73.933783%7C40.729029%2C-73.851524%7C40.6860072%2C-73.6334271%7C40.598566%2C-73.7527626&key=YOUR_API_KEY
-
-    With encoded polyline
-    https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=40.6655101,-73.89188969999998&destinations=enc:_kjwFjtsbMt%60EgnKcqLcaOzkGari%40naPxhVg%7CJjjb%40cqLcaOzkGari%40naPxhV:&key=YOUR_API_KEY
-    */
+    private final String LOG_TAG = MapsActivity.class.getName();
     private GoogleMap mMap;
-    private Polyline polyline;
     private PolylineOptions polylineOptions = new PolylineOptions();
     private Date currentTime = Calendar.getInstance().getTime();
     private Date trackingTime;
@@ -48,6 +42,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -57,14 +52,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    // Check if device has google play services
     public boolean isServicesOk() {
         int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
 
         if (available == ConnectionResult.SUCCESS) {
-            Log.d("GOOGLEMAP", "YES IT WORKS");
+            Log.d(LOG_TAG, "GooglePlayServices is available");
             return true;
         } else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
-            Log.d("GOOGLEMAP", "NO DOESN'T WORK");
+            Log.d(LOG_TAG, "GooglePlayServices is unavailable");
             Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(this, available, 9001);
             dialog.show();
         } else {
@@ -73,20 +69,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return false;
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setMapType(MAP_TYPE_NORMAL);
         setMapPoints();
-        polyline = mMap.addPolyline(polylineOptions);
+        Polyline polyline = mMap.addPolyline(polylineOptions);
         polyline.setWidth(3);
         polyline.setColor(Color.BLUE);
     }
@@ -98,6 +86,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Intent intent = getIntent();
         ArrayList<String> routeInfoList = intent.getStringArrayListExtra("routeInfoList");
 
+        // Extract the route information of the tracking and plot markers and draw route
         for (int i = 0; i < routeInfoList.size(); i++) {
             String[] route = routeInfoList.get(i).split(",");
             Date previousTrackingTime = trackingTime;
@@ -117,6 +106,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    // Plot a marker on map for the current location of the tracking
     private void setCurrLocTracking(LatLng previousPoint, LatLng newPoint, Date previousTrackingTime, Date trackingTime) {
         if (previousPoint != null && newPoint != null) {
             if (currentTime.after(previousTrackingTime) && currentTime.before(trackingTime)) {
@@ -141,6 +131,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    // Plot a marker on map for the meet location of the tracking
     private void setMeetLocTracking(LatLng newPoint, Date trackingTime, int stopTime) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(trackingTime);
@@ -152,7 +143,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newPoint, 16));
         } else {
             mMap.addMarker(new MarkerOptions().position(newPoint).title("Meet Location"));
-            if (trackingExist == false) {
+            if (!trackingExist) {
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newPoint, 16));
             }
         }

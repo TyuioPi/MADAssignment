@@ -8,6 +8,7 @@ public class TrackableImplementation {
 
     private ArrayList<FoodTruck> trackableList = new ArrayList<>();
     private ArrayList<String> categoryList = new ArrayList<>();
+    private ArrayList<String> selectedCategoryList = new ArrayList<>();
     private static TrackableImplementation INSTANCE = null;
 
     // Our singleton
@@ -48,11 +49,16 @@ public class TrackableImplementation {
         Collections.sort(categoryList, String.CASE_INSENSITIVE_ORDER);
     }
 
-    public ArrayList<String> getCategoryList() {
-        return categoryList;
+    public void setSelectedCategoryList(String selectedCategories) {
+        selectedCategoryList.clear();
+        selectedCategoryList.add(selectedCategories);
     }
 
-    public void getWalkingTimeToTrackable() {
+    public ArrayList<String> getSelectedCategoryList() {
+        return selectedCategoryList;
+    }
 
+    public ArrayList<String> getCategoryList() {
+        return categoryList;
     }
 }
