@@ -160,7 +160,7 @@ public class SuggestTracking implements View.OnClickListener {
         }
         return false;
     }
-    
+
     private int getWalkingTimeToTracking(Location deviceLocation, Double trackingLat, Double trackingLng) {
         String deviceLat = Double.toString(deviceLocation.getLatitude());
         String deviceLng = Double.toString(deviceLocation.getLongitude());
