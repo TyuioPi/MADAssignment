@@ -29,7 +29,7 @@ public class HTTPRequest extends Thread {
     private final String LOG_TAG = HTTPRequest.class.getName();
     private String url;
     private int statusCode;
-    private int walkingTime;
+    private String walkingTime;
     private final CountDownLatch latch = new CountDownLatch(1);
 
     public HTTPRequest(Context context, String startLat, String startLng, String endLat, String endLng) {
@@ -83,7 +83,7 @@ public class HTTPRequest extends Thread {
             JSONArray elements = (JSONArray) rowObj.get("elements");
             JSONObject elementObj = elements.getJSONObject(0);
             JSONObject duration = elementObj.getJSONObject("duration");
-            walkingTime = Integer.parseInt(duration.getString("value"));
+            walkingTime = duration.getString("value");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -94,7 +94,7 @@ public class HTTPRequest extends Thread {
         latch.countDown();
     }
 
-    public int getWalkingTime() {
+    public String getWalkingTime() {
         return walkingTime;
     }
 
