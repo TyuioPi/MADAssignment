@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.s3628594.database.foodTruckDB;
 import com.s3628594.model.FoodTruck;
 import com.s3628594.model.TrackableImplementation;
 import com.s3628594.model.Tracking;
@@ -37,9 +38,14 @@ public class AddTracking implements AdapterView.OnItemLongClickListener {
         String currLoc = "";
 
         // Add the tracking
-        TrackingImplementation.getSingletonInstance().addTracking(
-                new Tracking(trackableId, title, startTime, endTime, startTime, currLoc, meetLoc, addTrackingRoute(trackableId, startTime)));
-
+        final Tracking newTracking =  new Tracking(trackableId, title, startTime, endTime, startTime, currLoc, meetLoc, addTrackingRoute(trackableId, startTime));
+        TrackingImplementation.getSingletonInstance().addTracking(newTracking);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                foodTruckDB.getSingletonInstance().addItemtoTracking(newTracking);
+            }
+        }).start();
         // Sort the tracking list
         TrackingImplementation.getSingletonInstance().setDateSortedTrackingList();
 

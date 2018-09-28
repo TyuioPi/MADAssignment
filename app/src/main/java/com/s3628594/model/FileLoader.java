@@ -2,6 +2,7 @@ package com.s3628594.model;
 
 import android.content.Context;
 
+import com.s3628594.database.foodTruckDB;
 import com.s3628594.geotracking.R;
 
 import java.io.BufferedReader;
@@ -32,6 +33,7 @@ public class FileLoader {
                     TrackableImplementation.getSingletonInstance().setCategoryList(foodTruckDetails[4]);
                 }
             }
+            foodTruckDB.getSingletonInstance().createdB(TrackableImplementation.getSingletonInstance().getTrackableList(), context);
         } catch (IOException e) {
             e.printStackTrace();
         }

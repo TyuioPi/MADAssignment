@@ -1,6 +1,8 @@
 package com.s3628594.view;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -25,6 +27,7 @@ public class HomeActivity extends AppCompatActivity {
     private FileLoader fileLoader = new FileLoader();
     private TrackableTab trackableTab = new TrackableTab();
     private TrackingTab trackingTab = new TrackingTab();
+    private Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +46,12 @@ public class HomeActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
         // Loads food_truck_data.txt and tracking_data.txt
-        fileLoader.loadFoodTruckFile(this);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                fileLoader.loadFoodTruckFile(context);
+            }
+        }).start();
 
         // Set up Filters
         categoryFilter = new CategoryFilter(this, trackableTab);
@@ -78,6 +86,9 @@ public class HomeActivity extends AppCompatActivity {
         if (id == R.id.filter_action_1) {
             categoryFilter.showCategoryDialog();
             return true;
+        }else if (id == R.id.setting){
+            Intent i = new Intent(this, SettingView.class);
+            startActivity(i);
         }
         return super.onOptionsItemSelected(item);
     }

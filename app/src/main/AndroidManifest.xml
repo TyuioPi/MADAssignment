@@ -57,6 +57,12 @@
             android:name="com.s3628594.view.MapsActivity"
             android:label="@string/title_activity_maps">
         </activity>
+
+        <activity
+            android:name="com.s3628594.view.SettingView"
+            android:label="@string/setting_name">
+        </activity>
+
     </application>
 
 </manifest>

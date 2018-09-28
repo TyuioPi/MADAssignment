@@ -11,6 +11,7 @@ import android.widget.ListView;
 import com.s3628594.controller.CreateEditTrackingActivity;
 import com.s3628594.controller.DisplayRouteInfo;
 import com.s3628594.controller.NewTracking;
+import com.s3628594.database.foodTruckDB;
 import com.s3628594.geotracking.R;
 import com.s3628594.model.AddTrackingAdapter;
 import com.s3628594.model.TrackingImplementation;
@@ -41,5 +42,6 @@ public class TrackingTab extends Fragment {
     public void onResume() {
         super.onResume();
         adapter.notifyDataSetChanged();
+        foodTruckDB.getSingletonInstance().viewTrackingData();
     }
 }

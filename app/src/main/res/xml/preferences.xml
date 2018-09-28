@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/notification_category">
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="notification_turnon"
+            android:title="@string/set_notification" />
+        <ListPreference
+            android:defaultValue="5 minutes"
+            android:entries="@array/time_entries"
+            android:entryValues="@array/time_entries"
+            android:key="notification_time"
+            android:title="@string/set_notification_time" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/location_category">
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="location_turnon"
+            android:title="@string/set_location" />
+        <ListPreference
+            android:defaultValue="5 minutes"
+            android:entries="@array/time_entries"
+            android:entryValues="@array/time_entries"
+            android:key="location_time"
+            android:title="@string/set_location_suggestion" />
+    </PreferenceCategory>
+
+
+</PreferenceScreen>
