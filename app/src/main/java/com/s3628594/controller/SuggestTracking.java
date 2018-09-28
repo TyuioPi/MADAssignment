@@ -142,17 +142,25 @@ public class SuggestTracking implements View.OnClickListener {
         if (trackingInfo.stopTime == 0) {
             temporaryTrackingInfo.add(trackingInfo);
         } else {
-            int walkingTime = getWalkingTimeToTracking(deviceLocation, trackingInfo.latitude, trackingInfo.longitude);
+            String walkingTime = getWalkingTimeToTracking(deviceLocation, trackingInfo.latitude, trackingInfo.longitude);
             long timeToArrival = trackingInfo.date.getTime() - deviceTime.getTime();
 
-            // Suggest the tracking if it currently exists and the user can reach the tracking within time
-            if (trackingInfo.date.after(deviceTime) && walkingTime < timeToArrival) { // Can add stop time to increase duration
-                if (walkingTime < timeToArrival) {
-                    temporaryTrackingInfo.add(trackingInfo);
-                    getAllMatchedTracking(trackingInfo, matchedTracking);
-                    trackingFinder.setTrackingMatchedList(matchedTracking);
-                    trackingFinder.setTrackingMatchedInfo(temporaryTrackingInfo);
-                    return true;
+            // Check if it is possible to walk to the tracking
+            if (walkingTime != null) {
+                // Convert walking duration from seconds to milliseconds
+                int convertWalkingTime = Integer.parseInt(walkingTime) * 1000;
+
+                // Suggest the tracking if it currently exists and the user can reach the tracking within time
+                if (trackingInfo.date.after(deviceTime) && convertWalkingTime < timeToArrival) { // Can add stop time to increase duration
+                    if (convertWalkingTime < timeToArrival) {
+                        temporaryTrackingInfo.add(trackingInfo);
+                        getAllMatchedTracking(trackingInfo, matchedTracking);
+                        trackingFinder.setTrackingMatchedList(matchedTracking);
+                        trackingFinder.setTrackingMatchedInfo(temporaryTrackingInfo);
+                        return true;
+                    }
+                } else {
+                    temporaryTrackingInfo.clear();
                 }
             } else {
                 temporaryTrackingInfo.clear();
@@ -161,7 +169,7 @@ public class SuggestTracking implements View.OnClickListener {
         return false;
     }
 
-    private int getWalkingTimeToTracking(Location deviceLocation, Double trackingLat, Double trackingLng) {
+    private String getWalkingTimeToTracking(Location deviceLocation, Double trackingLat, Double trackingLng) {
         String deviceLat = Double.toString(deviceLocation.getLatitude());
         String deviceLng = Double.toString(deviceLocation.getLongitude());
         String endLat = Double.toString(trackingLat);
@@ -172,13 +180,11 @@ public class SuggestTracking implements View.OnClickListener {
         // Wait until thread is complete before retrieving walking duration value
         try {
             httpRequest.getLatch().await();
-
-            // Convert walking duration from seconds to milliseconds
-            return httpRequest.getWalkingTime() * 1000;
+            return httpRequest.getWalkingTime();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return 0;
+        return null;
     }
 
     /* Extract tracking information of a stationary tracking to obtain the title, start time,
