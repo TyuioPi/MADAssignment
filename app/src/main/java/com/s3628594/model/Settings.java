@@ -1,12 +1,14 @@
 package com.s3628594.model;
 
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 
 public class Settings {
 
     private static Settings INSTANCE = null;
-
-    public SharedPreferences preferences;
+    public static boolean Notification_turnOn;
+    public static String Notification_period;
+    public static boolean Reminder_turnOn;
 
     private Settings(){}
 
@@ -17,11 +19,13 @@ public class Settings {
         return INSTANCE;
     }
 
-    public SharedPreferences getPreferences() {
-        return preferences;
-    }
 
     public void setPreferences(SharedPreferences preferences) {
-        this.preferences = preferences;
+        Notification_turnOn = preferences.getBoolean("notification_turnon", false);
+        Notification_period = preferences.getString("notification_time", null);
     }
+
+
+
+
 }

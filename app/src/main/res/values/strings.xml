@@ -31,7 +31,7 @@
 
     <!-- tracking_finder -->
     <string name="search">Search</string>
-    <string name="suggest">Suggest</string>
+    <string name="suggest">Suggest Now</string>
     <string name="select_meet_time">Select Meet Time</string>
     <string name="select_date">Select Date</string>
 
@@ -46,15 +46,12 @@
     <string name="setting_name">Setting</string>
 
     <!--notification_values-->
-    <string name="notification_category">Notification</string>
-    <string name="set_notification">Turn on notifications</string>
-    <string name="set_notification_time">Set time for notification to turn on</string>
-
+    <string name="notification_category">Suggestion</string>
+    <string name="set_notification">Turn on Suggestion</string>
+    <string name="set_notification_time">Set Interval for Suggestion</string>
 
     <!--location_values-->
-    <string name="location_category">Location</string>
-    <string name="set_location">Turn on location</string>
-    <string name="set_location_suggestion">Time to suggest location</string>
+    <string name="reminder">Reminder</string>
+    <string name="set_reminder">Turn on Reminder</string>
 
-    <string name="setting">Setting</string>
 </resources>

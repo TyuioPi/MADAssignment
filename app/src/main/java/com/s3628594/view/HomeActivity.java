@@ -3,7 +3,9 @@ package com.s3628594.view;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -12,12 +14,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.s3628594.controller.SuggestNotification;
+import com.s3628594.controller.changeSetting;
 import com.s3628594.geotracking.R;
 import com.s3628594.model.SectionsPageAdapter;
 import com.s3628594.model.FileLoader;
+import com.s3628594.model.Settings;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -28,12 +34,19 @@ public class HomeActivity extends AppCompatActivity {
     private TrackableTab trackableTab = new TrackableTab();
     private TrackingTab trackingTab = new TrackingTab();
     private Context context = this;
+    private SuggestNotification notification = new SuggestNotification();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
+
+        PreferenceManager.setDefaultValues(this,R.xml.preferences, false);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        preferences.registerOnSharedPreferenceChangeListener(new changeSetting());
+        Settings.getSingleton().setPreferences(preferences);
+        notification.ScheduleNotification(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

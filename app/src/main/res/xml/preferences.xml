@@ -14,18 +14,12 @@
             android:key="notification_time"
             android:title="@string/set_notification_time" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/location_category">
+    <PreferenceCategory android:title="@string/reminder">
 
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="location_turnon"
-            android:title="@string/set_location" />
-        <ListPreference
-            android:defaultValue="5 minutes"
-            android:entries="@array/time_entries"
-            android:entryValues="@array/time_entries"
-            android:key="location_time"
-            android:title="@string/set_location_suggestion" />
+            android:key="Reminder"
+            android:title="@string/set_reminder" />
     </PreferenceCategory>
 
 
