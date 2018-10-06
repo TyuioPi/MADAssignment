@@ -14,6 +14,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -100,7 +101,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             if (i == routeInfoList.size() - 1) {
                 setMeetLocTracking(point, trackingTime, stopTime);
-            } else {
+            }else if (i < routeInfoList.size() -1){
+                setwaypoints(point, trackingTime);
+            }else {
                 setCurrLocTracking(previousPoint, point, previousTrackingTime, trackingTime);
             }
         }
@@ -148,6 +151,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
     }
+
+    private void setwaypoints(LatLng newPoint, Date trackingTime){
+        mMap.addCircle(new CircleOptions()
+                .center(newPoint)
+                .radius(10)
+                .strokeColor(Color.RED)
+                .fillColor(Color.BLUE));
+    }
+
+
 
     private Date convertStringToDate(String date) {
         Date convertedDate = null;

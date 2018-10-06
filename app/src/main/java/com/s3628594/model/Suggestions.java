@@ -1,21 +1,13 @@
-package com.s3628594.controller;
+package com.s3628594.model;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
+import android.content.Context;
 import android.icu.text.SimpleDateFormat;
 import android.location.Location;
-import android.location.LocationManager;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
-import com.s3628594.model.FoodTruck;
-import com.s3628594.model.HTTPRequest;
-import com.s3628594.model.MatchedTrackingAdapter;
-import com.s3628594.model.TrackableImplementation;
-import com.s3628594.model.TrackingService;
-import com.s3628594.view.TrackingFinder;
+import com.s3628594.controller.RequestLocation;
+import com.s3628594.database.foodTruckDB;
 
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
@@ -26,49 +18,43 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static android.content.Context.LOCATION_SERVICE;
+public class Suggestions {
 
-public class SuggestTracking implements View.OnClickListener {
+    public static List<Tracking> SuggestionList = new ArrayList<>();
+    private ArrayList<List<TrackingService.TrackingInfo>> trackingInfoList = new ArrayList<>();
+    private ArrayList<ArrayList<String>> trackingMatchedList = new ArrayList<>();
 
-    // TODO: Pass list of trackables to this class to get their lat/lng of meeting locations
-    private static final String LOG_TAG = SuggestTracking.class.getName();
-    private TrackingFinder trackingFinder;
-    private MatchedTrackingAdapter matchedTrackingAdapter;
     private Location deviceLocation = RequestLocation.deviceLocation;
+    private Context context;
+    private static Suggestions INSTANCE;
 
-    public SuggestTracking(TrackingFinder trackingFinder, MatchedTrackingAdapter matchedTrackingAdapter) {
-        this.trackingFinder = trackingFinder;
-        this.matchedTrackingAdapter = matchedTrackingAdapter;
+    private Suggestions() {
     }
 
-    @Override
-    public void onClick(View view) {
-        if (deviceLocation != null) {
-            // Reset tracking suggestions
-            trackingFinder.clearTrackingMatchedInfo();
-            trackingFinder.clearTrackedMatchedList();
+    public static Suggestions getSingletonInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new Suggestions();
+        }
+        return INSTANCE;
+    }
 
-            // Search for tracking suggestions
-            getSuggestionList();
-
-            // Update the view
-            matchedTrackingAdapter.notifyDataSetChanged();
-        } else {
-            Toast.makeText(trackingFinder, "Please try again", Toast.LENGTH_SHORT).show();
+    private void addTracking() {
+        List<TrackingService.TrackingInfo> routeInfo = new ArrayList<>();
+        for (int i = 0; i < SuggestionList.size(); i++) {
+            routeInfo = trackingInfoList.get(i);
+            Log.d("route", routeInfo.toString());
+            SuggestionList.get(i).setRouteInfo(routeInfo);
         }
     }
 
-    // Get device location permissions to retrieve device location
-
-
-    // Return list of suggested trackings
-    private void getSuggestionList() {
+    public void getSuggestionList(Context context) {
+        this.context = context;
         Date deviceTime = correctDateFormat();
         final int SEARCH_WINDOW = 1440; // Set search window to 1 day
 
         // Lists all tracking information of all trackings found
         List<TrackingService.TrackingInfo> trackingFound =
-                TrackingService.getSingletonInstance(trackingFinder).getTrackingInfoForTimeRange(deviceTime, SEARCH_WINDOW, 0);
+                TrackingService.getSingletonInstance(context).getTrackingInfoForTimeRange(deviceTime, SEARCH_WINDOW, 0);
 
         // Temporary list to return all tracking information per tracking
         List<TrackingService.TrackingInfo> temporaryTrackingInfo = new ArrayList<>();
@@ -106,6 +92,8 @@ public class SuggestTracking implements View.OnClickListener {
                 }
             }
         }
+        addTracking();
+
     }
 
     // Check if a tracking suggestion has been made
@@ -123,14 +111,13 @@ public class SuggestTracking implements View.OnClickListener {
             if (walkingTime != null) {
                 // Convert walking duration from seconds to milliseconds
                 int convertWalkingTime = Integer.parseInt(walkingTime) * 1000;
-
                 // Suggest the tracking if it currently exists and the user can reach the tracking within time
                 if (trackingInfo.date.after(deviceTime) && convertWalkingTime < timeToArrival) { // Can add stop time to increase duration
                     if (convertWalkingTime < timeToArrival) {
                         temporaryTrackingInfo.add(trackingInfo);
                         getAllMatchedTracking(trackingInfo, matchedTracking);
-                        trackingFinder.setTrackingMatchedList(matchedTracking);
-                        trackingFinder.setTrackingMatchedInfo(temporaryTrackingInfo);
+                        trackingMatchedList.add(matchedTracking);
+                        trackingInfoList.add(temporaryTrackingInfo);
                         return true;
                     }
                 } else {
@@ -148,7 +135,7 @@ public class SuggestTracking implements View.OnClickListener {
         String deviceLng = Double.toString(deviceLocation.getLongitude());
         String endLat = Double.toString(trackingLat);
         String endLng = Double.toString(trackingLng);
-        HTTPRequest httpRequest = new HTTPRequest(trackingFinder, deviceLat, deviceLng, endLat, endLng);
+        HTTPRequest httpRequest = new HTTPRequest(context, deviceLat, deviceLng, endLat, endLng);
         httpRequest.start();
 
         // Wait until thread is complete before retrieving walking duration value
@@ -179,17 +166,20 @@ public class SuggestTracking implements View.OnClickListener {
         calendar.setTime(startTime);
         calendar.add(Calendar.MINUTE, trackingInfo.stopTime);
         Date endTime = calendar.getTime();
+        int trackableId = getTrackingTrackableId(title);
         String location = String.format("%s, %s", trackingInfo.latitude, trackingInfo.longitude);
+        String currLoc = "";
 
         matchedTracking.add(title);
         matchedTracking.add(dateFormat.format(startTime));
         matchedTracking.add(dateFormat.format(endTime));
         matchedTracking.add(location);
+        Tracking newTracking = new Tracking(trackableId,title, dateFormat.format(startTime), dateFormat.format(endTime),
+                dateFormat.format(startTime), currLoc, location, null,false);
+        SuggestionList.add(newTracking);
+
+
     }
-
-
-
-
 
     private Date correctDateFormat() {
         Date deviceTime = Calendar.getInstance().getTime();
@@ -223,4 +213,29 @@ public class SuggestTracking implements View.OnClickListener {
         return fixedDate;
     }
 
+    private int getTrackingTrackableId(String title) {
+
+        for (FoodTruck foodTruck : TrackableImplementation.getSingletonInstance().getTrackableList()) {
+            if (foodTruck.getTrackableName().equals(title)) {
+                return foodTruck.getTrackableId();
+            }
+        }
+        return 0;
+    }
+
+
+
+
+
+
+
+
+
+
+
 }
+
+
+
+
+

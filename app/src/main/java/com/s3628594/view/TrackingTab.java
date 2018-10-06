@@ -1,5 +1,8 @@
 package com.s3628594.view;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -7,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.s3628594.controller.CreateEditTrackingActivity;
 import com.s3628594.controller.DisplayRouteInfo;
@@ -14,6 +18,8 @@ import com.s3628594.controller.NewTracking;
 import com.s3628594.database.foodTruckDB;
 import com.s3628594.geotracking.R;
 import com.s3628594.model.AddTrackingAdapter;
+import com.s3628594.model.Suggestions;
+import com.s3628594.model.Tracking;
 import com.s3628594.model.TrackingImplementation;
 
 public class TrackingTab extends Fragment {
@@ -34,9 +40,11 @@ public class TrackingTab extends Fragment {
         itemList.setOnItemClickListener(new DisplayRouteInfo(getActivity()));
         itemList.setOnItemLongClickListener(new CreateEditTrackingActivity(getActivity()));
         itemList.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
         return view;
     }
+
 
     @Override
     public void onResume() {
@@ -44,4 +52,8 @@ public class TrackingTab extends Fragment {
         adapter.notifyDataSetChanged();
         foodTruckDB.getSingletonInstance().viewTrackingData();
     }
+
+
+
+
 }

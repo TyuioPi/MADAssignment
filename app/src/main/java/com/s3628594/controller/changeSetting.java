@@ -1,6 +1,7 @@
 package com.s3628594.controller;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.s3628594.model.Settings;
 
@@ -10,6 +11,8 @@ public class changeSetting implements SharedPreferences.OnSharedPreferenceChange
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Log.d("listener ", "set");
         Settings.getSingleton().setPreferences(sharedPreferences);
+
     }
 }

@@ -45,8 +45,9 @@ public class HTTPRequest extends Thread {
                 googleUrl, outputFormat, origin, startLat, startLng,
                 destination, endLat, endLng, mode, key);
     }
-
+    @Override
     public void run() {
+        super.run();
         disableSSLCertificateChecking();
         HttpURLConnection connection = null;
         try {

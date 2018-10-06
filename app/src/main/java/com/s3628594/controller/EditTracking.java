@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.EditText;
 
+import com.s3628594.database.foodTruckDB;
 import com.s3628594.model.Tracking;
 import com.s3628594.model.TrackingImplementation;
 
@@ -31,7 +32,7 @@ public class EditTracking implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        Tracking tracking = TrackingImplementation.getSingletonInstance().getTrackingById(trackingId);
+        final Tracking tracking = TrackingImplementation.getSingletonInstance().getTrackingById(trackingId);
 
         // Edit title
         String newTitle = titleEdit.getText().toString();
@@ -47,6 +48,12 @@ public class EditTracking implements View.OnClickListener {
             String validMeetTime = String.format("%s %s", meetDateEdit.getText().toString(), meetTimeEdit.getText().toString());
             TrackingImplementation.getSingletonInstance().editTrackingMeetTime(tracking, validMeetTime);
         }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                foodTruckDB.getSingletonInstance().updateTracking(tracking);
+            }
+        }).start();
         activity.finish();
     }
 

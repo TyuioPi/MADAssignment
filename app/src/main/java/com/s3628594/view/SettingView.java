@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.s3628594.geotracking.R;
+import com.s3628594.model.Settings;
 
 
 public class SettingView extends AppCompatActivity {
@@ -15,7 +16,7 @@ public class SettingView extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new settingFragment())
                 .commit();
-
+        Settings.getSingleton().getPreferences();
     }
 
     public static class settingFragment extends PreferenceFragmentCompat{

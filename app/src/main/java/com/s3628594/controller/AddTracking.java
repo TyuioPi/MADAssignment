@@ -20,6 +20,7 @@ public class AddTracking implements AdapterView.OnItemLongClickListener {
 
     private Activity context;
     private ArrayList<List<TrackingService.TrackingInfo>> trackingInfoList;
+    private ReminderNotification reminder = new ReminderNotification();
 
     public AddTracking(Activity context, ArrayList<List<TrackingService.TrackingInfo>> trackingInfoList) {
         this.context = context;
@@ -38,8 +39,10 @@ public class AddTracking implements AdapterView.OnItemLongClickListener {
         String currLoc = "";
 
         // Add the tracking
-        final Tracking newTracking =  new Tracking(trackableId, title, startTime, endTime, startTime, currLoc, meetLoc, addTrackingRoute(trackableId, startTime));
+        final Tracking newTracking =  new Tracking(trackableId, title, startTime, endTime, startTime, currLoc, meetLoc,
+                addTrackingRoute(trackableId, startTime), true);
         TrackingImplementation.getSingletonInstance().addTracking(newTracking);
+        reminder.scheduleReminder(context,newTracking);
         new Thread(new Runnable() {
             @Override
             public void run() {

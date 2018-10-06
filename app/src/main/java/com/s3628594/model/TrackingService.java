@@ -48,7 +48,7 @@ public class TrackingService
       @Override
       public String toString()
       {
-         return String.format(Locale.getDefault(), "Date/Time=%s, trackableId=%d, stopTime=%d, lat=%.5f, long=%.5f", DateFormat.getDateTimeInstance(
+         return String.format(Locale.getDefault(), "Date/Time=%s trackableId=%d stopTime=%d lat=%.5f long=%.5f", DateFormat.getDateTimeInstance(
                  DateFormat.SHORT, DateFormat.MEDIUM).format(date), trackableId, stopTime, latitude, longitude);
       }
    }

@@ -14,9 +14,13 @@ public class Tracking {
     private String currLoc;
     private String meetLoc;
     private List<TrackingService.TrackingInfo> routeInfo;
+    private boolean reminder;
+
+
 
     public Tracking(int trackableId, String title, String startTime, String endTime,
-                    String meetTime, String currLoc, String meetLoc, List<TrackingService.TrackingInfo> routeInfo) {
+                    String meetTime, String currLoc, String meetLoc, List<TrackingService.TrackingInfo> routeInfo
+    , boolean reminder) {
         this.trackingId = setTrackingId();
         this.trackableId = trackableId;
         this.title = title;
@@ -26,6 +30,16 @@ public class Tracking {
         this.currLoc = currLoc;
         this.meetLoc = meetLoc;
         this.routeInfo = routeInfo;
+        this.reminder = reminder;
+
+    }
+
+    public void setRouteInfo(List<TrackingService.TrackingInfo> routeInfo) {
+        this.routeInfo = routeInfo;
+    }
+
+    public String toString(){
+        return String.format("%s %s %s %s", this.title, this.startTime, this.endTime, this.meetLoc);
     }
 
     private String setTrackingId() {
@@ -71,4 +85,12 @@ public class Tracking {
     }
 
     public List<TrackingService.TrackingInfo> getRouteInfo() { return routeInfo; }
+
+    public boolean isReminder() {
+        return reminder;
+    }
+
+    public void setReminder(boolean reminder) {
+        this.reminder = reminder;
+    }
 }

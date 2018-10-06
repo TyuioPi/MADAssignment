@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.s3628594.model.Tracking;
 import com.s3628594.model.TrackingService;
@@ -31,6 +32,7 @@ public class DisplayRouteInfo implements AdapterView.OnItemClickListener {
 
         final String LOG_TAG = DisplayRouteInfo.class.getName();
         Tracking tracking = (Tracking) adapterView.getAdapter().getItem(i);
+        Toast.makeText(context, tracking.getRouteInfo().toString(), Toast.LENGTH_LONG).show();
         ArrayList<String> routeInfoList = new ArrayList<>();
 
         // Get route information of clicked tracking
@@ -40,6 +42,7 @@ public class DisplayRouteInfo implements AdapterView.OnItemClickListener {
             String route = String.format("%s,%s,%s,%s",fixedRouteDate, routeInfo.latitude, routeInfo.longitude, routeInfo.stopTime);
             routeInfoList.add(route);
         }
+
 
         Intent intent = new Intent(context, MapsActivity.class);
 

@@ -18,7 +18,7 @@ public class foodTruckDB {
 
 
     private static foodTruckDB INSTANCE = null;
-
+    private Context context;
     private foodTruckDB() {}
 
     public static foodTruckDB getSingletonInstance() {
@@ -35,16 +35,26 @@ public class foodTruckDB {
 
     private SQLiteDatabase mDatabase;
 
-    private static final String CREATE_FOODTRUCK_TABLE = "CREATE TABLE tbl_foodtruck (id INTEGER PRIMARY KEY" +
+    private static final String CREATE_FOODTRUCK_TABLE = "CREATE TABLE " + TABLE_FOODTRUCK +"(id INTEGER PRIMARY KEY" +
             " AUTOINCREMENT " +
             ", foodtruckname TEXT, description TEXT, url TEXT, category TEXT);";
 
-    private static final String CREATE_TRACKING_TABLE = "CREATE TABLE tbl_tracking (id INTEGER PRIMARY KEY" +
+    private static final String CREATE_TRACKING_TABLE = "CREATE TABLE "+ TABLE_TRACKING +"(id INTEGER PRIMARY KEY" +
             " AUTOINCREMENT " +
             ", trackingId TEXT, title TEXT, starttime TEXT, endtime TEXT, meettime TEXT, meetlocation TEXT);";
 
 
-    public void createdB(ArrayList<FoodTruck> foodtruckList, Context context){
+    public void closedB(){
+        mDatabase.close();
+    }
+
+
+    public void opendB(Context context){
+
+    }
+
+    public void createFoodTruckTable(Context context,ArrayList<FoodTruck> foodtruckList){
+        this.context = context;
         if (Arrays.binarySearch(context.databaseList(), DATABASE_NAME) >= 0){
             context.deleteDatabase(DATABASE_NAME);
         }
@@ -57,11 +67,7 @@ public class foodTruckDB {
         for (int i = 0; i < foodtruckList.size(); i++){
             addfoodtruckItems(foodtruckList.get(i));
         }
-        Cursor c = mDatabase.query(TABLE_FOODTRUCK, null, null, null, null, null
-                , null);
-        LogCursorInfo(c);
-        c.close();
-
+        viewFoodtruckData();
     }
 
     private void addfoodtruckItems(FoodTruck foodTruck){
@@ -80,6 +86,7 @@ public class foodTruckDB {
         finally {
             mDatabase.endTransaction();
         }
+
     }
 
     public void addItemtoTracking(Tracking tracking){
@@ -94,6 +101,7 @@ public class foodTruckDB {
             values.put("meetlocation",tracking.getMeetLoc());
             mDatabase.insertOrThrow(TABLE_TRACKING, null, values);
             mDatabase.setTransactionSuccessful();
+
         }catch (Exception e ){
             Log.i(getClass().getName(), "Transaction failed. Exception: " + e.getMessage());
         }
@@ -101,13 +109,44 @@ public class foodTruckDB {
             mDatabase.endTransaction();
         }
 
+
     }
+
+    public void updateTracking(Tracking tracking){
+        mDatabase = context.openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE, null);
+            ContentValues values = new ContentValues();
+            values.put("title", tracking.getTitle());
+            values.put("meettime", tracking.getMeetTime());
+            mDatabase.update(TABLE_TRACKING, values, tracking.getTrackingId(), null);
+    }
+
+
+    public void deleteTracking(Tracking tracking){
+        mDatabase = context.openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE, null);
+        mDatabase.delete(TABLE_TRACKING, tracking.getTrackingId(), null);
+    }
+
+
+    public void viewFoodtruckData(){
+        Cursor c = mDatabase.query(TABLE_FOODTRUCK, null, null, null, null, null
+                , null);
+        LogCursorInfo(c);
+        c.close();
+    }
+
 
     public void viewTrackingData(){
         Cursor c = mDatabase.query(TABLE_TRACKING, null, null, null, null, null
                 , null);
         LogCursorInfo(c);
         c.close();
+    }
+
+
+    public void viewAllData(Context context){
+        mDatabase = context.openOrCreateDatabase(DATABASE_NAME, Context.MODE_PRIVATE, null);
+        viewFoodtruckData();
+        viewTrackingData();
     }
 
 

@@ -33,7 +33,7 @@ public class FileLoader {
                     TrackableImplementation.getSingletonInstance().setCategoryList(foodTruckDetails[4]);
                 }
             }
-            foodTruckDB.getSingletonInstance().createdB(TrackableImplementation.getSingletonInstance().getTrackableList(), context);
+            foodTruckDB.getSingletonInstance().createFoodTruckTable(context,TrackableImplementation.getSingletonInstance().getTrackableList());
         } catch (IOException e) {
             e.printStackTrace();
         }
