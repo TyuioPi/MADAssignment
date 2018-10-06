@@ -13,9 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 
-
 public class foodTruckDB {
-
 
     private static foodTruckDB INSTANCE = null;
     private Context context;

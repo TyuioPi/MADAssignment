@@ -10,6 +10,7 @@ import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.s3628594.geotracking.R;
 import com.s3628594.model.Settings;
 import com.s3628594.model.Suggestions;
 import com.s3628594.view.SuggestionPublisher;
@@ -30,7 +31,6 @@ public class SuggestNotification {
         }
         return INSTANCE;
     }
-
 
     private void getTime(){
         String TimeSetting = Settings.Notification_period;
@@ -53,33 +53,30 @@ public class SuggestNotification {
         counter++;
     }
 
-
-
-
-    private Notification buildNotification(Context context, int i){
+    private Notification buildNotification(Context context, int i) {
         Log.d("notification", Integer.toString(i));
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, SuggestionPublisher.id);
-        builder.setContentTitle("New Tracking");
+        builder.setContentTitle(context.getString(R.string.notification_title));
         if (i <= Suggestions.SuggestionList.size() -1 ){
             builder.setContentText(Suggestions.SuggestionList.get(i).toString());
-            Intent notificationintent = new Intent(context, addTrackingReceiver.class);
-            notificationintent.putExtra("integer", i);
-            notificationintent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            PendingIntent addService = PendingIntent.getBroadcast(context, 0, notificationintent, PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.addAction(android.R.drawable.ic_menu_add, "Add Tracking", addService);
+            Intent notificationIntent = new Intent(context, addTrackingReceiver.class);
+            notificationIntent.putExtra("integer", i);
+            notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            PendingIntent addService = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.addAction(android.R.drawable.ic_menu_add, context.getString(R.string.add_tracking), addService);
 
             Intent nextIntent = new Intent(context, SuggestionService.class);
             nextIntent.setAction(SuggestionService.Next);
             PendingIntent nextService = PendingIntent.getService(context, 0, nextIntent, 0);
-            builder.addAction(android.R.drawable.ic_menu_view, "Next Tracking", nextService);
+            builder.addAction(android.R.drawable.ic_menu_view, context.getString(R.string.next_tracking), nextService);
 
             Intent cancelIntent = new Intent(context, SuggestionService.class);
             cancelIntent.putExtra("counter", i);
             cancelIntent.setAction(SuggestionService.Cancel);
-            PendingIntent canelIntent = PendingIntent.getService(context, 0, cancelIntent, 0);
-            builder.addAction(android.R.drawable.ic_menu_view, "Cancel", canelIntent);
-        }else {
-            builder.setContentText("No trackable available");
+            PendingIntent cancelPendingIntent = PendingIntent.getService(context, 0, cancelIntent, 0);
+            builder.addAction(android.R.drawable.ic_menu_view, context.getString(R.string.cancel), cancelPendingIntent);
+        } else {
+            builder.setContentText(context.getString(R.string.no_tracking));
             builder.setAutoCancel(true);
         }
         builder.setSmallIcon(android.R.drawable.ic_popup_reminder);

@@ -1,7 +1,6 @@
 package com.s3628594.model;
 
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.util.Log;
 
 import com.s3628594.controller.changeSetting;
@@ -35,6 +34,4 @@ public class Settings {
         preferences.registerOnSharedPreferenceChangeListener(new changeSetting());
 
     }
-
-
 }

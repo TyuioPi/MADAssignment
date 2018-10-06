@@ -14,15 +14,12 @@ import com.s3628594.view.SuggestionPublisher;
  */
 public class SuggestionService extends IntentService {
 
-
     public static final String Next = "Suggest_next";
     public static final String Cancel = "Schedule_next";
 
     public SuggestionService() {
         super("SuggestionService");
     }
-
-
 
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -31,16 +28,10 @@ public class SuggestionService extends IntentService {
             if (action.equals(Next)){
                 SuggestNotification.getSingletonInstance().ScheduleNotification(this, 5000);
                 SuggestionPublisher.notificationManager.cancel(1);
-            }else if (action.equals(Cancel)){
+            } else if (action.equals(Cancel)){
                 SuggestNotification.getSingletonInstance().ScheduleNotification(this, 30000);
                 SuggestionPublisher.notificationManager.cancel(1);
             }
-
         }
     }
-
-
-
-
-
 }

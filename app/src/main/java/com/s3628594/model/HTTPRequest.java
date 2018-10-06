@@ -28,7 +28,6 @@ public class HTTPRequest extends Thread {
 
     private final String LOG_TAG = HTTPRequest.class.getName();
     private String url;
-    private int statusCode;
     private String walkingTime;
     private final CountDownLatch latch = new CountDownLatch(1);
 
@@ -59,7 +58,7 @@ public class HTTPRequest extends Thread {
             connection.setConnectTimeout(5000);
 
             Log.i(LOG_TAG, "Request URL: " + url);
-            statusCode = connection.getResponseCode();
+            int statusCode = connection.getResponseCode();
 
             if (statusCode != HttpURLConnection.HTTP_OK)
             {

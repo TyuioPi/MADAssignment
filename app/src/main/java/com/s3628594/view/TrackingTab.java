@@ -1,16 +1,13 @@
 package com.s3628594.view;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.s3628594.controller.CreateEditTrackingActivity;
 import com.s3628594.controller.DisplayRouteInfo;
@@ -18,13 +15,13 @@ import com.s3628594.controller.NewTracking;
 import com.s3628594.database.foodTruckDB;
 import com.s3628594.geotracking.R;
 import com.s3628594.model.AddTrackingAdapter;
-import com.s3628594.model.Suggestions;
-import com.s3628594.model.Tracking;
 import com.s3628594.model.TrackingImplementation;
 
 public class TrackingTab extends Fragment {
 
     private AddTrackingAdapter adapter;
+    final Handler timeHandler = new Handler();
+    private Runnable updater;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,7 +42,6 @@ public class TrackingTab extends Fragment {
         return view;
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -53,7 +49,27 @@ public class TrackingTab extends Fragment {
         foodTruckDB.getSingletonInstance().viewTrackingData();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateView();
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        timeHandler.removeCallbacks(updater);
+    }
 
-
+    // Check for any changes to our adapter view
+    private void updateView() {
+        updater = new Runnable() {
+            @Override
+            public void run() {
+                adapter.notifyDataSetChanged();
+                timeHandler.postDelayed(updater, 5000);
+            }
+        };
+        timeHandler.post(updater);
+    }
 }

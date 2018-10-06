@@ -9,7 +9,6 @@ import com.s3628594.model.Settings;
 
 
 public class SettingView extends AppCompatActivity {
-
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,15 +18,12 @@ public class SettingView extends AppCompatActivity {
         Settings.getSingleton().getPreferences();
     }
 
-    public static class settingFragment extends PreferenceFragmentCompat{
-
+    public static class settingFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.preferences, rootKey);
         }
     }
-
-
 }
 
 

@@ -1,12 +1,7 @@
 package com.s3628594.controller;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.icu.text.SimpleDateFormat;
 import android.location.Location;
-import android.location.LocationManager;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -26,12 +21,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static android.content.Context.LOCATION_SERVICE;
-
 public class SuggestTracking implements View.OnClickListener {
 
-    // TODO: Pass list of trackables to this class to get their lat/lng of meeting locations
-    private static final String LOG_TAG = SuggestTracking.class.getName();
     private TrackingFinder trackingFinder;
     private MatchedTrackingAdapter matchedTrackingAdapter;
     private Location deviceLocation = RequestLocation.deviceLocation;
@@ -57,9 +48,6 @@ public class SuggestTracking implements View.OnClickListener {
             Toast.makeText(trackingFinder, "Please try again", Toast.LENGTH_SHORT).show();
         }
     }
-
-    // Get device location permissions to retrieve device location
-
 
     // Return list of suggested trackings
     private void getSuggestionList() {
@@ -186,10 +174,6 @@ public class SuggestTracking implements View.OnClickListener {
         matchedTracking.add(dateFormat.format(endTime));
         matchedTracking.add(location);
     }
-
-
-
-
 
     private Date correctDateFormat() {
         Date deviceTime = Calendar.getInstance().getTime();

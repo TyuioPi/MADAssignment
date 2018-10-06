@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 public class TrackableTab extends android.support.v4.app.Fragment {
 
-    //Private variables
     private ArrayAdapter adapter, filteredAdapter;
     private ListView itemList;
     private ArrayList<String> filteredNames = new ArrayList<>();

@@ -9,10 +9,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.s3628594.controller.SuggestNotification;
 import com.s3628594.model.Settings;
 
 public class SuggestionPublisher extends BroadcastReceiver {
@@ -22,8 +19,6 @@ public class SuggestionPublisher extends BroadcastReceiver {
     public static String NOTIFICATION = "notification";
     private String title = "SuggestionNotification";
     public static NotificationManager notificationManager;
-
-
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -43,14 +38,12 @@ public class SuggestionPublisher extends BroadcastReceiver {
                 Notification notification = intent.getParcelableExtra(NOTIFICATION);
                 int id = intent.getIntExtra(NOTIFICATION_ID, 0);
                 notificationManager.notify(id, notification);
-                Log.d("notify", "hi");
-            }else{
+            } else {
                 Notification notification = intent.getParcelableExtra(NOTIFICATION);
                 int id = intent.getIntExtra(NOTIFICATION_ID, 0);
                 notificationManager.notify(id, notification);
             }
         }
-
     }
 
     private boolean isNetworkAvailable(Context context) {
@@ -64,10 +57,4 @@ public class SuggestionPublisher extends BroadcastReceiver {
         }
         return isAvailable;
     }
-
-
-
-
-
-
 }

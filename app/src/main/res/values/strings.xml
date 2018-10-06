@@ -41,17 +41,28 @@
 
     <!--Map -->
     <string name="title_activity_maps">Map</string>
+    <string name="tracking_arrival">Tracking has arrived</string>
+    <string name="tracking_arrival_end">Tracking has ended</string>
 
     <!--setting_values-->
     <string name="setting_name">Setting</string>
 
     <!--notification_values-->
+    <string name="notification_title">New Tracking</string>
     <string name="notification_category">Suggestion</string>
     <string name="set_notification">Turn on Suggestion</string>
     <string name="set_notification_time">Set Interval for Suggestion</string>
+    <string name="next_tracking">Next Tracking</string>
+    <string name="add_tracking">Add Tracking</string>
+    <string name="no_tracking">No tracking available</string>
+    <string name="tracking_arriving">Your tracking will be arriving soon</string>
 
     <!--location_values-->
     <string name="reminder">Reminder</string>
     <string name="set_reminder">Turn on Reminder</string>
+
+    <!-- Network/Internet -->
+    <string name="internet_available">Connected to Internet</string>
+    <string name="internet_unavailable">Not Connected to Internet</string>
 
 </resources>

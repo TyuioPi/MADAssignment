@@ -1,7 +1,6 @@
 package com.s3628594.view;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 
 import com.s3628594.controller.Close;
 import com.s3628594.controller.ViewTrackable;

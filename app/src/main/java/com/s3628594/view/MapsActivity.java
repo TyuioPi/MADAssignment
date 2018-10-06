@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -86,7 +87,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Retrieve passed data through intent
         Intent intent = getIntent();
         ArrayList<String> routeInfoList = intent.getStringArrayListExtra("routeInfoList");
-
         // Extract the route information of the tracking and plot markers and draw route
         for (int i = 0; i < routeInfoList.size(); i++) {
             String[] route = routeInfoList.get(i).split(",");
@@ -101,9 +101,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             if (i == routeInfoList.size() - 1) {
                 setMeetLocTracking(point, trackingTime, stopTime);
-            }else if (i < routeInfoList.size() -1){
-                setwaypoints(point, trackingTime);
-            }else {
+                setArrivalTime(trackingTime, stopTime);
+            } else {
                 setCurrLocTracking(previousPoint, point, previousTrackingTime, trackingTime);
             }
         }
@@ -115,14 +114,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (currentTime.after(previousTrackingTime) && currentTime.before(trackingTime)) {
                 mMap.addMarker(new MarkerOptions().position(previousPoint).title("Current Location"));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(previousPoint, 16));
+                setWayPoints(newPoint);
                 trackingExist = true;
             } else if (currentTime.compareTo(previousTrackingTime) == 0) {
                 mMap.addMarker(new MarkerOptions().position(previousPoint).title("Current Location"));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(previousPoint, 16));
+                setWayPoints(newPoint);
                 trackingExist = true;
             } else if (currentTime.compareTo(trackingTime) == 0) {
                 mMap.addMarker(new MarkerOptions().position(newPoint).title("Current Location"));
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newPoint, 16));
+                setWayPoints(previousPoint);
                 trackingExist = true;
             }
         } else if (previousPoint == null && newPoint != null) {
@@ -152,7 +154,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    private void setwaypoints(LatLng newPoint, Date trackingTime){
+    // Plot way points of tracking
+    private void setWayPoints(LatLng newPoint) {
         mMap.addCircle(new CircleOptions()
                 .center(newPoint)
                 .radius(10)
@@ -160,7 +163,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .fillColor(Color.BLUE));
     }
 
+    // Method to determine trackings arrival time
+    private void setArrivalTime(Date trackingTime, int stopTime) {
+        TextView arrivalTime = findViewById(R.id.arrival_time);
+        long arrivesIn = trackingTime.getTime() - currentTime.getTime();
+        long stoppedDuration = Math.abs(currentTime.getTime() - trackingTime.getTime());
+        // Convert arrival time from milliseconds to minutes
+        arrivesIn = (arrivesIn / 1000) / 60;
 
+        if (arrivesIn > 0) {
+            arrivalTime.setText(String.format("Tracking arrives in %s minute(s)", arrivesIn));
+        } else if (arrivesIn == 0){
+            arrivalTime.setText(R.string.tracking_arrival);
+        } else if (stoppedDuration > stopTime){
+            arrivalTime.setText(R.string.tracking_arrival_end);
+        }
+    }
 
     private Date convertStringToDate(String date) {
         Date convertedDate = null;

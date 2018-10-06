@@ -44,7 +44,6 @@ public class EditTrackingActivity extends AppCompatActivity {
         Button edit = findViewById(R.id.confirm_edit);
         edit.setOnClickListener(new EditTracking(this, titleEdit, meetDateEdit, meetTimeEdit,
                                                   trackingId, trackingStartTime, trackingEndTime));
-
         Button cancel = findViewById(R.id.cancel);
         cancel.setOnClickListener(new Close(this));
 

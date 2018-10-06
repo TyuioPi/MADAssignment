@@ -7,9 +7,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.provider.SyncStateContract;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -18,22 +16,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.android.gms.common.internal.Constants;
-import com.s3628594.controller.RequestLocation;
 import com.s3628594.controller.checkInternetConnection;
-import com.s3628594.database.foodTruckDB;
 import com.s3628594.geotracking.R;
 
 import com.s3628594.model.SectionsPageAdapter;
 import com.s3628594.model.FileLoader;
 import com.s3628594.model.Settings;
-
-import java.util.Calendar;
-import java.util.Date;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -61,7 +52,7 @@ public class HomeActivity extends AppCompatActivity {
         connectivity.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
         this.registerReceiver(connection,connectivity);
 
-
+        // Loads food_truck_data.txt and tracking_data.txt
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -78,8 +69,6 @@ public class HomeActivity extends AppCompatActivity {
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-        // Loads food_truck_data.txt and tracking_data.txt
 
         // Set up Filters
         categoryFilter = new CategoryFilter(this, trackableTab);
@@ -120,16 +109,4 @@ public class HomeActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-
 }

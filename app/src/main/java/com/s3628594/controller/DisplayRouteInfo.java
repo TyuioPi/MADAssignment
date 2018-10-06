@@ -43,7 +43,6 @@ public class DisplayRouteInfo implements AdapterView.OnItemClickListener {
             routeInfoList.add(route);
         }
 
-
         Intent intent = new Intent(context, MapsActivity.class);
 
         // Pass data through intent

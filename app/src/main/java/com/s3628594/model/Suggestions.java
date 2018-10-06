@@ -4,10 +4,8 @@ import android.content.Context;
 import android.icu.text.SimpleDateFormat;
 import android.location.Location;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.s3628594.controller.RequestLocation;
-import com.s3628594.database.foodTruckDB;
 
 import java.text.DateFormat;
 import java.text.DateFormatSymbols;
@@ -39,7 +37,7 @@ public class Suggestions {
     }
 
     private void addTracking() {
-        List<TrackingService.TrackingInfo> routeInfo = new ArrayList<>();
+        List<TrackingService.TrackingInfo> routeInfo;
         for (int i = 0; i < SuggestionList.size(); i++) {
             routeInfo = trackingInfoList.get(i);
             Log.d("route", routeInfo.toString());
@@ -93,7 +91,6 @@ public class Suggestions {
             }
         }
         addTracking();
-
     }
 
     // Check if a tracking suggestion has been made
@@ -177,8 +174,6 @@ public class Suggestions {
         Tracking newTracking = new Tracking(trackableId,title, dateFormat.format(startTime), dateFormat.format(endTime),
                 dateFormat.format(startTime), currLoc, location, null,false);
         SuggestionList.add(newTracking);
-
-
     }
 
     private Date correctDateFormat() {

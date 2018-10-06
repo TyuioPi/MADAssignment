@@ -7,21 +7,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.util.Log;
 
 public class ReminderPublisher extends BroadcastReceiver {
 
-    //ToDo : run test for reminder
-
     public static String id = "Reminder_channel";
-    public static String notificationid = "ReminderId";
+    public static String notificationId = "ReminderId";
     public static String Reminder = "reminder";
     private String title = "ReminderNotification";
     private NotificationManager notificationManager;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d("reminder", "set");
         if (notificationManager == null){
             notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         }
@@ -35,12 +31,11 @@ public class ReminderPublisher extends BroadcastReceiver {
                 notificationManager.createNotificationChannel(channel);
             }
             Notification notification = intent.getParcelableExtra(Reminder);
-            int id = intent.getIntExtra(notificationid, 0);
+            int id = intent.getIntExtra(notificationId, 0);
             notificationManager.notify(id, notification);
-            Log.d("notify", "hi");
-        }else{
+        } else {
             Notification notification = intent.getParcelableExtra(Reminder);
-            int id = intent.getIntExtra(notificationid, 0);
+            int id = intent.getIntExtra(notificationId, 0);
             notificationManager.notify(id, notification);
         }
     }

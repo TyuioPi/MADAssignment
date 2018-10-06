@@ -9,18 +9,14 @@ public class Close implements DialogInterface.OnClickListener, View.OnClickListe
     private Activity activity;
 
     public Close(Activity activity) {
-
         this.activity = activity;
     }
 
     @Override
-    public void onClick(DialogInterface dialogInterface, int i) {
-
-    }
+    public void onClick(DialogInterface dialogInterface, int i) {}
 
     @Override
     public void onClick(View view) {
-
         activity.finish();
     }
 }

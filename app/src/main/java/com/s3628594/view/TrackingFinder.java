@@ -1,10 +1,8 @@
 package com.s3628594.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,7 +28,6 @@ public class TrackingFinder extends AppCompatActivity {
     private String selectedTrackable = "";
     private ArrayList<List<TrackingService.TrackingInfo>> trackingInfoList = new ArrayList<>();
     private ArrayList<ArrayList<String>> trackingMatchedList = new ArrayList<>();
-    private View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,41 +64,33 @@ public class TrackingFinder extends AppCompatActivity {
         // Suggest button for tracking
         Button suggest = findViewById(R.id.suggest_tracking);
         suggest.setOnClickListener(new SuggestTracking(this, trackingAdapter));
-
-
     }
 
     // Set selected trackable from the spinner
     public void setSelectedTrackable(String trackable) {
-
         selectedTrackable = trackable;
     }
 
     // Get selected trackable from the spinner
     public String getSelectedTrackable() {
-
         return selectedTrackable;
     }
 
     // Lists all tracking information per tracking
     public void setTrackingMatchedInfo(List<TrackingService.TrackingInfo> trackingInfo) {
-
         trackingInfoList.add(trackingInfo);
     }
 
     public void clearTrackingMatchedInfo() {
-
         trackingInfoList.clear();
     }
 
     // Lists only tracking information of a tracking when stationary
     public void setTrackingMatchedList(ArrayList<String> trackingMatched) {
-
         trackingMatchedList.add(trackingMatched);
     }
 
     public void clearTrackedMatchedList() {
-
         trackingMatchedList.clear();
     }
 }

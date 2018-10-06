@@ -14,7 +14,6 @@ public class DateDialog {
     private EditText dateEdit;
 
     public DateDialog(Context context, EditText dateEdit) {
-
         this.context = context;
         this.dateEdit = dateEdit;
     }
