@@ -63,7 +63,7 @@ public class TrackingFinder extends AppCompatActivity {
 
         // Suggest button for tracking
         Button suggest = findViewById(R.id.suggest_tracking);
-        suggest.setOnClickListener(new SuggestTracking(this, trackingAdapter));
+        suggest.setOnClickListener(new SuggestTracking(this));
     }
 
     // Set selected trackable from the spinner
@@ -81,6 +81,11 @@ public class TrackingFinder extends AppCompatActivity {
         trackingInfoList.add(trackingInfo);
     }
 
+    // Return tracking info of matched trackings
+    public ArrayList<List<TrackingService.TrackingInfo>> getTrackingMatchedInfo() {
+        return trackingInfoList;
+    }
+
     public void clearTrackingMatchedInfo() {
         trackingInfoList.clear();
     }
@@ -88,6 +93,11 @@ public class TrackingFinder extends AppCompatActivity {
     // Lists only tracking information of a tracking when stationary
     public void setTrackingMatchedList(ArrayList<String> trackingMatched) {
         trackingMatchedList.add(trackingMatched);
+    }
+
+    // Return list of trackings matched
+    public ArrayList<ArrayList<String>> getTrackingMatchedList() {
+        return trackingMatchedList;
     }
 
     public void clearTrackedMatchedList() {

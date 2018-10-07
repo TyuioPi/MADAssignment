@@ -63,9 +63,9 @@
 
         <receiver android:name="com.s3628594.view.SuggestionPublisher" />
 
-        <receiver android:name="com.s3628594.controller.addTrackingReceiver"/>
+        <receiver android:name="com.s3628594.controller.AddTrackingReceiver"/>
 
-        <receiver android:name="com.s3628594.controller.checkInternetConnection"/>
+        <receiver android:name="com.s3628594.controller.CheckInternetConnection"/>
 
         <receiver android:name="com.s3628594.view.ReminderPublisher"/>
 

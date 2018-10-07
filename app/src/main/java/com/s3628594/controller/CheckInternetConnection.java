@@ -9,11 +9,13 @@ import android.widget.Toast;
 
 import com.s3628594.geotracking.R;
 
-public class checkInternetConnection extends BroadcastReceiver {
+public class CheckInternetConnection extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+        // Check if device is connected to the internet
         if (activeNetwork != null && activeNetwork.isConnectedOrConnecting()){
             Toast.makeText(context,context.getString(R.string.internet_available), Toast.LENGTH_LONG).show();
             RequestLocation.getSingletonInstance().getLocation(context);

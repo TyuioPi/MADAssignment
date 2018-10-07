@@ -217,17 +217,6 @@ public class Suggestions {
         }
         return 0;
     }
-
-
-
-
-
-
-
-
-
-
-
 }
 
 

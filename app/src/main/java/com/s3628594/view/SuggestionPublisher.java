@@ -10,7 +10,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 
-import com.s3628594.model.Settings;
+import com.s3628594.model.PreferenceSettings;
 
 public class SuggestionPublisher extends BroadcastReceiver {
 
@@ -22,7 +22,7 @@ public class SuggestionPublisher extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (isNetworkAvailable(context) && Settings.Notification_turnOn){
+        if (isNetworkAvailable(context) && PreferenceSettings.Notification_turnOn){
             if (notificationManager == null){
                 notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             }
@@ -51,8 +51,9 @@ public class SuggestionPublisher extends BroadcastReceiver {
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
         boolean isAvailable = false;
+
+        // Check if network exists and has connection
         if (networkInfo != null && networkInfo.isConnected()) {
-            // Network is present and connected
             isAvailable = true;
         }
         return isAvailable;

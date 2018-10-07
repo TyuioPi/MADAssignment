@@ -6,7 +6,7 @@ import android.widget.EditText;
 
 import com.s3628594.view.DateDialog;
 
-public class CreateDateDialog implements View.OnClickListener{
+public class CreateDateDialog implements View.OnClickListener {
 
     private Context context;
     private EditText dateEdit;

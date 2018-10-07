@@ -11,7 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.s3628594.geotracking.R;
-import com.s3628594.model.Settings;
+import com.s3628594.model.PreferenceSettings;
 import com.s3628594.model.Suggestions;
 import com.s3628594.view.SuggestionPublisher;
 
@@ -33,7 +33,7 @@ public class SuggestNotification {
     }
 
     private void getTime(){
-        String TimeSetting = Settings.Notification_period;
+        String TimeSetting = PreferenceSettings.Notification_period;
         if (TimeSetting.equals("5 minutes")){
             time = 300000;
         }else if (TimeSetting.equals("10 minutes")) {
@@ -59,7 +59,7 @@ public class SuggestNotification {
         builder.setContentTitle(context.getString(R.string.notification_title));
         if (i <= Suggestions.SuggestionList.size() -1 ){
             builder.setContentText(Suggestions.SuggestionList.get(i).toString());
-            Intent notificationIntent = new Intent(context, addTrackingReceiver.class);
+            Intent notificationIntent = new Intent(context, AddTrackingReceiver.class);
             notificationIntent.putExtra("integer", i);
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             PendingIntent addService = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);

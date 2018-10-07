@@ -3,21 +3,21 @@ package com.s3628594.model;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.s3628594.controller.changeSetting;
+import com.s3628594.controller.ChangeSetting;
 
-public class Settings {
+public class PreferenceSettings {
 
-    private static Settings INSTANCE = null;
+    private static PreferenceSettings INSTANCE = null;
     public static boolean Notification_turnOn;
     public static String Notification_period;
     public static boolean Reminder_turnOn;
     public static SharedPreferences preferences;
 
-    private Settings(){}
+    private PreferenceSettings() {}
 
-    public static Settings getSingleton(){
+    public static PreferenceSettings getSingleton(){
         if (INSTANCE == null){
-            INSTANCE = new Settings();
+            INSTANCE = new PreferenceSettings();
         }
         return INSTANCE;
     }
@@ -31,7 +31,7 @@ public class Settings {
     }
 
     public void getPreferences(){
-        preferences.registerOnSharedPreferenceChangeListener(new changeSetting());
+        preferences.registerOnSharedPreferenceChangeListener(new ChangeSetting());
 
     }
 }

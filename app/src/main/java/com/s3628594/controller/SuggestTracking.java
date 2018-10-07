@@ -24,12 +24,12 @@ import java.util.Locale;
 public class SuggestTracking implements View.OnClickListener {
 
     private TrackingFinder trackingFinder;
-    private MatchedTrackingAdapter matchedTrackingAdapter;
+//    private MatchedTrackingAdapter matchedTrackingAdapter;
     private Location deviceLocation = RequestLocation.deviceLocation;
 
-    public SuggestTracking(TrackingFinder trackingFinder, MatchedTrackingAdapter matchedTrackingAdapter) {
+    public SuggestTracking(TrackingFinder trackingFinder) {
         this.trackingFinder = trackingFinder;
-        this.matchedTrackingAdapter = matchedTrackingAdapter;
+//        this.matchedTrackingAdapter = matchedTrackingAdapter;
     }
 
     @Override
@@ -43,7 +43,12 @@ public class SuggestTracking implements View.OnClickListener {
             getSuggestionList();
 
             // Update the view
-            matchedTrackingAdapter.notifyDataSetChanged();
+//            matchedTrackingAdapter.notifyDataSetChanged();
+
+            // Create our suggestion dialog
+            CreateSuggestionDialog createSuggestionDialog = new CreateSuggestionDialog(trackingFinder,
+                    trackingFinder.getTrackingMatchedInfo(), trackingFinder.getTrackingMatchedList());
+            createSuggestionDialog.onClick(view);
         } else {
             Toast.makeText(trackingFinder, "Please try again", Toast.LENGTH_SHORT).show();
         }

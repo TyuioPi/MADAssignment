@@ -87,6 +87,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Retrieve passed data through intent
         Intent intent = getIntent();
         ArrayList<String> routeInfoList = intent.getStringArrayListExtra("routeInfoList");
+
         // Extract the route information of the tracking and plot markers and draw route
         for (int i = 0; i < routeInfoList.size(); i++) {
             String[] route = routeInfoList.get(i).split(",");
@@ -98,6 +99,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             previousPoint = point;
             point = new LatLng(latitude, longitude);
             polylineOptions.add(point);
+            setWayPoints(point);
 
             if (i == routeInfoList.size() - 1) {
                 setMeetLocTracking(point, trackingTime, stopTime);
@@ -168,14 +170,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         TextView arrivalTime = findViewById(R.id.arrival_time);
         long arrivesIn = trackingTime.getTime() - currentTime.getTime();
         long stoppedDuration = Math.abs(currentTime.getTime() - trackingTime.getTime());
-        // Convert arrival time from milliseconds to minutes
+
+        // Convert arrival time and stopped duration from milliseconds to minutes
         arrivesIn = (arrivesIn / 1000) / 60;
+        stoppedDuration = (stoppedDuration / 1000) / 60;
 
         if (arrivesIn > 0) {
             arrivalTime.setText(String.format("Tracking arrives in %s minute(s)", arrivesIn));
-        } else if (arrivesIn == 0){
+        } else if (arrivesIn == 0 || stoppedDuration < stopTime){
             arrivalTime.setText(R.string.tracking_arrival);
-        } else if (stoppedDuration > stopTime){
+        } else if (stoppedDuration >= stopTime) {
             arrivalTime.setText(R.string.tracking_arrival_end);
         }
     }

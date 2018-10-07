@@ -4,6 +4,7 @@
     <string name="title_activity_tracking_finder">Tracking Finder</string>
     <string name="search_tracking">Search Tracking</string>
     <string name="edit_tracking">Edit Tracking</string>
+    <string name="suggested_tracking">Tracking Suggestions</string>
 
     <!-- Tabs -->
     <string name="tab_text_1">Trackable</string>
@@ -24,6 +25,7 @@
     <string name="location">Location</string>
     <string name="empty">-- --</string>
     <string name="cancel">Cancel</string>
+    <string name="next">Next</string>
 
     <!-- Filter -->
     <string name="dialog_title_1">Select cuisine</string>

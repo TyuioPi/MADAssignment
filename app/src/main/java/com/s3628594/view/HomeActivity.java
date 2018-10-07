@@ -19,12 +19,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.s3628594.controller.checkInternetConnection;
+import com.s3628594.controller.CheckInternetConnection;
 import com.s3628594.geotracking.R;
 
 import com.s3628594.model.SectionsPageAdapter;
 import com.s3628594.model.FileLoader;
-import com.s3628594.model.Settings;
+import com.s3628594.model.PreferenceSettings;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -35,7 +35,7 @@ public class HomeActivity extends AppCompatActivity {
     private TrackableTab trackableTab = new TrackableTab();
     private TrackingTab trackingTab = new TrackingTab();
     private Context context = this;
-    private checkInternetConnection connection = new checkInternetConnection();
+    private CheckInternetConnection connection = new CheckInternetConnection();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +45,8 @@ public class HomeActivity extends AppCompatActivity {
 
         PreferenceManager.setDefaultValues(this,R.xml.preferences, false);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Settings.getSingleton().setPreferences(preferences);
-        Settings.preferences = preferences;
+        PreferenceSettings.getSingleton().setPreferences(preferences);
+        PreferenceSettings.preferences = preferences;
 
         IntentFilter connectivity = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         connectivity.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
